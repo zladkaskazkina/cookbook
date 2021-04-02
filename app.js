@@ -1,7 +1,10 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const recipes = require("./routes/recipes-routes");
-const keys = require("./config/keys");
+const keys = require("./server/config/keys");
+
+const recipes = require("./server/routes/recipes-routes");
+
+require("./server/models/Recipe");
 
 mongoose.connect(keys.mongoURI, {
   useNewUrlParser: true,
@@ -10,7 +13,6 @@ mongoose.connect(keys.mongoURI, {
 });
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -21,4 +23,5 @@ app.get('/', (req,res) =>{
   res.send({hi: 'there'});
 });
 
+const PORT = process.env.PORT || 5000;
 app.listen(PORT);
