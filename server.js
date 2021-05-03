@@ -1,18 +1,14 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const keys = require("./server/config/keys");
+const express = require("./server/node_modules/express");
+const app = express();
+const PORT = process.env.PORT || 5000;
+const dbConnect = require("./server/database/connect");
+
+const database = new dbConnect();
+database.connect();
 
 const recipes = require("./server/routes/recipes-routes");
 
 require("./server/models/Recipe");
-
-mongoose.connect(keys.mongoURI, {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true,
-});
-
-const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -23,5 +19,5 @@ app.get('/', (req,res) =>{
   res.send({hi: 'there'});
 });
 
-const PORT = process.env.PORT || 5000;
+
 app.listen(PORT);
