@@ -1,7 +1,7 @@
-const saveIngredient = require('express');
+const saveIngredient = require('express').Router();
 const modelIngredient = require('../../models/Ingredient');
 
-saveIngredient.post('/save-ingredient', (req, res)=> {
+saveIngredient.post('/save-ingredient', async (req, res)=> {
   const { name } = req.body
   const surovina = new modelIngredient({
     name: name
@@ -18,4 +18,5 @@ saveIngredient.post('/save-ingredient', (req, res)=> {
     }
   })
 });
+module.exports = saveIngredient;
 
