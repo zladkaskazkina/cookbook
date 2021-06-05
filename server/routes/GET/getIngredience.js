@@ -10,7 +10,7 @@ getIngredients.get('get-ingredients', (req,res) => {
     } else {
       return res.json({
         msg: "Uspesne se nacetli suroviny",
-        documents: docs
+        documents: data
       })
     }
   })

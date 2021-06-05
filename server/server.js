@@ -6,7 +6,7 @@ const dbConnect = require("./database/connect");
 
 const saveIngredient = require('./routes/POST/saveIngredients')
 // save recipe
-// get recipe
+const getRecipes = require('./routes/GET/getRecipes')
 const getIngredients = require('./routes/GET/getIngredience')
 // delete recipe
 // update recipe
@@ -26,7 +26,7 @@ database.connect();
 
 // ROUTY GET
 
-// get Recipe
+app.use('/', getRecipes)
 app.use('/', getIngredients)
 
 //  ROUTY POST
