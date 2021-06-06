@@ -2,26 +2,32 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const recipeSchema =  new Schema({
-  nazevReceptu:{
+  author:{
     type:String,
   },
-  popis:{
+  category:{
     type:String,
   },
-  dobaPripravy:{
+  name:{
     type:String,
   },
-  nahledovyObrazek:{
+  summary:{
     type:String
   },
-  suroviny:{
+  ingredients:{
     type:Array,
   },
-  soucetGramaze:{
+  preparationTime:{
     type:Number,
   },
-  fullText:{
+  method:{
     type:String
+  },
+  photo: {
+    type:String
+  },
+  tags: {
+    type:Array,
   }
 });
 

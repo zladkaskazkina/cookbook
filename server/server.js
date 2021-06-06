@@ -5,18 +5,18 @@ const PORT = process.env.PORT || 5000;
 const dbConnect = require("./database/connect");
 
 const saveIngredient = require('./routes/POST/saveIngredients')
-// save recipe
+const saveRecipe = require('./routes/POST/saveRecipe')
 const getRecipes = require('./routes/GET/getRecipes')
 const getIngredients = require('./routes/GET/getIngredience')
 // delete recipe
-// update recipe
-// update ingerdient
+const updateRecipe = require('./routes/POST/updateRecipe')// update recipe
+const updateIngredient = require('./routes/POST/updateIngredient')// update ingerdient
 // delete ingredient
 
 // Middleware
 // Povolit prijimat JSON z Frontendu
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.json({extended:false}));
+app.use(express.text({extended:false}));
 
 // Pripojeni k DB
 const database = new dbConnect();
@@ -26,15 +26,15 @@ database.connect();
 
 // ROUTY GET
 
-app.use('/', getRecipes)
-app.use('/', getIngredients)
+app.use('/', getRecipes);
+app.use('/', getIngredients);
 
 //  ROUTY POST
 
-app.use("/", saveIngredient)
-// save recipe
-// update recipe
-// update ingredient
+app.use("/", saveIngredient);
+app.use("/", saveRecipe);
+app.use("/", updateIngredient);// update ingredient
+app.use("/", updateRecipe);// update recipe
 
 // delete recipe
 // delete ingredient
