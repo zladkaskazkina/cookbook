@@ -1,15 +1,17 @@
-import './App.css';
-import React from 'react';
-import { BrowserRouter, Switch, Route} from 'react-router-dom';
-import Main from './views/mainPage';
-import AddRecipe from './views/addRecipe'
+import "./App.scss";
+
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+
+import AddRecipe from "./views/addRecipe";
+import Main from "./views/mainPage";
+import React from "react";
 
 function App() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/"  component={Main}/>
-        <Route exact path="/add-recipe"  component={AddRecipe}/>
+        <Route exact path="/" component={Main} />
+        <Route exact path="/add-recipe" component={AddRecipe} />
       </Switch>
     </BrowserRouter>
   );
