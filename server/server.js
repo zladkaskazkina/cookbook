@@ -11,7 +11,7 @@ const getIngredients = require('./routes/GET/getIngredience')
 // delete recipe
 const updateRecipe = require('./routes/POST/updateRecipe')// update recipe
 const updateIngredient = require('./routes/POST/updateIngredient')// update ingerdient
-// delete ingredient
+const deleteIngredient = require('./routes/POST/deleteIngredient')// delete ingredient
 
 // Middleware
 // Povolit prijimat JSON z Frontendu
@@ -37,7 +37,7 @@ app.use("/", updateIngredient);// update ingredient
 app.use("/", updateRecipe);// update recipe
 
 // delete recipe
-// delete ingredient
+app.use("/", deleteIngredient)// delete ingredient
 
 
 app.listen(PORT, (err) => {
