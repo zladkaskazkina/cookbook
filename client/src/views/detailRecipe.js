@@ -17,7 +17,7 @@ const recipe = {
   method: "Boil 5 liters of water and add the garlic. Cook for 15 minutes.",
   preparationTime: 20,
   rating: 4.7,
-  photoSrc: "/assets/garlic_soup.jpg",
+  photoSrc: "/assets/garlicSoup.jpg",
   tags: ["water", "garlic"],
 };
 
