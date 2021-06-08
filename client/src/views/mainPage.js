@@ -1,3 +1,4 @@
+import DetailRecipe from "./detailRecipe";
 import Footer from "../components/footer";
 import Navbar from "../components/navbar";
 import React from "react";
@@ -36,6 +37,7 @@ const Main = () => {
           </li>
         ))}
       </ul>
+      <DetailRecipe />
       <br />
       <br />
       <Footer />
