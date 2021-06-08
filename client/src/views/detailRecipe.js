@@ -1,29 +1,14 @@
 import Ingredient from "../components/ingredient";
 import Layout from "../components/layout";
 import React from "react";
-import RecipeList from "../components/recipeList";
+import { initialRecipesList } from "../views/mainPage";
 
-const recipe = {
-  id: 1616017111148,
-  author: "someId",
-  category: "Soup",
-  temperature: "cold",
-  name: "Garlic soup",
-  summary: "The best soup after party",
-  ingredients: [
-    { name: "garlic", ingredientAmount: { measure: "pc", amount: 1 } },
-    { name: "water", ingredientAmount: { measure: "l", amount: 5 } },
-  ],
-  method: "Boil 5 liters of water and add the garlic. Cook for 15 minutes.",
-  preparationTime: 20,
-  rating: 4.7,
-  photoSrc: "/assets/garlicSoup.jpg",
-  tags: ["water", "garlic"],
-};
-
-export default function DetailRecipe() {
-  const { photoSrc, name, summary, method, ingredients } = recipe;
-  console.log("ingredients", ingredients);
+export default function DetailRecipe({ location }) {
+  const recipeId = location.pathname.replace("/recipes/", "");
+  const recipe = initialRecipesList.filter((currRecipe) =>
+    currRecipe.id.toString().includes(recipeId)
+  );
+  const { photoSrc, name, summary, method, ingredients } = recipe[0];
   return (
     <Layout>
       <img src={photoSrc} />
@@ -38,7 +23,6 @@ export default function DetailRecipe() {
           </>
         ))}
       </ul>
-      <RecipeList />
     </Layout>
   );
 }
