@@ -1,16 +1,15 @@
-import { Link, Route, Switch } from "react-router-dom";
-
+import { Link } from "react-router-dom";
 import React from "react";
 
 export default function Navbar() {
   return (
     <div className="navbar d-flex justify-center">
-      <img src="logo.png" alt="logo" />
+      <Link to="/">
+        <img src="/logo.png" alt="logo" />
+      </Link>
       <nav>
         <ul>
-          <li>
-            <Link to="/about">About</Link>
-          </li>
+          <li>{/* <Link to="/about">About</Link> */}</li>
         </ul>
       </nav>
     </div>

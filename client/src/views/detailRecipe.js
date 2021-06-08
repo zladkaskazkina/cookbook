@@ -1,4 +1,7 @@
+import Ingredient from "../components/ingredient";
+import Layout from "../components/layout";
 import React from "react";
+import RecipeList from "../components/recipeList";
 
 const recipe = {
   id: 1616017111148,
@@ -8,8 +11,8 @@ const recipe = {
   name: "Garlic soup",
   summary: "The best soup after party",
   ingredients: [
-    { name: "garlic", quantity: { measure: "pc", amount: 1 } },
-    { name: "water", quantity: { measure: "l", amount: 5 } },
+    { name: "garlic", ingredientAmount: { measure: "pc", amount: 1 } },
+    { name: "water", ingredientAmount: { measure: "l", amount: 5 } },
   ],
   method: "Boil 5 liters of water and add the garlic. Cook for 15 minutes.",
   preparationTime: 20,
@@ -22,20 +25,20 @@ export default function DetailRecipe() {
   const { photoSrc, name, summary, method, ingredients } = recipe;
   console.log("ingredients", ingredients);
   return (
-    <div>
+    <Layout>
       <img src={photoSrc} />
       <h1>{name}</h1>
       <h2>{summary}</h2>
       <br />
       <p> {method}</p>
       <ul>
-        {ingredients.map(({ name, quantity }) => {
-          {
-            console.log("name", name, quantity);
-          }
-          <li>{name}</li>;
-        })}
+        {ingredients.map((ingredient) => (
+          <>
+            <Ingredient ingredientContent={ingredient} />
+          </>
+        ))}
       </ul>
-    </div>
+      <RecipeList />
+    </Layout>
   );
 }
