@@ -371,13 +371,27 @@ export const initialRecipesList = [
   },
 ];
 
+//filter
+// recipes.filter((el) => ["starter", "soup"].some(e=>e === el.category))
+
 const Main = () => {
   const [searchRecipe, setSearchRecipe] = useState("");
   const [recipesList, setRecipesList] = useState(initialRecipesList);
+  const [categories, setCategories] = useState([]);
+  const [filterList, setFilterList] = useState([]);
+  const [isFiltered, setIsFiltered] = useState(false);
 
+  console.log("filterList", filterList);
+  console.log("categories", categories, "recipesList", recipesList);
   useEffect(() => {
+    const categoriesUniqueObj = new Set(
+      initialRecipesList.map((recipe) => recipe.category)
+    );
     setRecipesList(initialRecipesList.map((recipe) => new Recipe(recipe)));
+    setCategories([...categoriesUniqueObj]);
   }, [initialRecipesList]);
+
+  useEffect(() => {}, [isFiltered]);
 
   const handleChange = (event) => {
     setSearchRecipe(event.target.value);
@@ -391,8 +405,34 @@ const Main = () => {
       )
     : recipesList;
 
+  const handleFilterChange = (e) => {
+    const checkedCategory = e.target.name;
+
+    setFilterList(
+      e.target.checked
+        ? [...filterList, ...[checkedCategory]]
+        : filterList.filter((item) => item !== checkedCategory)
+    );
+  };
+
   return (
     <Layout>
+      {categories && (
+        <div className="filter-category">
+          {categories.map((category) => (
+            <label key={category}>
+              <input
+                type="checkbox"
+                onChange={handleFilterChange}
+                name={category}
+              ></input>
+              <span>
+                <p>{category}</p>
+              </span>
+            </label>
+          ))}
+        </div>
+      )}
       <input
         className="text-center d-flex justify-center"
         type="text"
