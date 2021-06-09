@@ -1,7 +1,7 @@
 
 const getRecipes = require('express').Router();
 const recipeModel = require('../../models/Recipe');
-getRecipes.get('allrecipes', (req,res) => {
+getRecipes.get('/allrecipes', (req,res) => {
   recipeModel.find({}, (err, data) => {
     if(err) {
       return res.json({

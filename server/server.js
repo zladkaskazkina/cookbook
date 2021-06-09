@@ -1,8 +1,13 @@
 const express = require("express");
+const cors = require('cors');
+const dotenv = require("dotenv");
+
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 const dbConnect = require("./database/connect");
+dotenv.config();
+
 
 const saveIngredient = require('./routes/POST/saveIngredients')
 const saveRecipe = require('./routes/POST/saveRecipe')
@@ -26,18 +31,18 @@ database.connect();
 
 // ROUTY GET
 
-app.use('/', getRecipes);
-app.use('/', getIngredients);
+app.use(cors(), getRecipes);
+app.use(cors(), getIngredients);
 
 //  ROUTY POST
 
-app.use("/", saveIngredient);
-app.use("/", saveRecipe);
-app.use("/", updateIngredient);// update ingredient
-app.use("/", updateRecipe);// update recipe
+app.use(cors(), saveIngredient);
+app.use(cors(), saveRecipe);
+app.use(cors(), updateIngredient);// update ingredient
+app.use(cors(), updateRecipe);// update recipe
 
 // delete recipe
-app.use("/", deleteIngredient)// delete ingredient
+app.use(cors(), deleteIngredient)// delete ingredient
 
 
 app.listen(PORT, (err) => {
