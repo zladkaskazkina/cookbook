@@ -11,8 +11,8 @@ const recipeSchema =  new Schema({
   name:{
     type:String,
   },
-  summary:{
-    type:String
+  portions:{
+    type:Number
   },
   ingredients:{
     type:Array,
@@ -25,9 +25,6 @@ const recipeSchema =  new Schema({
   },
   photo: {
     type:String
-  },
-  tags: {
-    type:Array,
   }
 });
 
