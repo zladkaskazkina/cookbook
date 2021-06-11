@@ -118,7 +118,6 @@ export const initialRecipesList = [
     id: 1616017111151,
     author: "admin",
     category: "soup",
-    temperature: "hot",
     name: "Dýňová polévka",
     portions: 4,
     ingredients: [
@@ -134,15 +133,7 @@ export const initialRecipesList = [
       { name: "pepř mletý", quantity: { measure: "", amount: "" } },
     ],
     method:
-      "Dýni překrojíme na polovinu a pečeme ji 15-20 minut při 200 stupních doměkka.Po dopečení ji necháme vychladnout a následně ji oloupeme a vydlabeme z ní semínka.\n" +
-      "\n" +
-      "Ve větším hrnci na rozpáleném oleji (nebo na másle) osmahneme nadrobno nakrájenou cibuli a prolisovaný česnek.Přidáme nakrájenou mrkev a petržel.\n" +
-      "Lehce je osmahneme a poté přidáme i upečenou dýni nařezanou na menší kousky.\n" +
-      "\n" +
-      "Zeleninu osolíme a opepříme podle chuti.Zeleninu zalijeme vodou tak, aby voda pokrývala obsah hrnce a polévku vaříme zhruba 15 minut, dokud zelenina nezměkne.\n" +
-      "Následně polévku rozmixujeme tyčovým mixérem a v případě potřeby ještě dochutíme kořením.\n" +
-      "\n" +
-      "Polévku můžeme podávat posypanou nasucho opraženými dýňovými či jinými semínky.\n",
+      "Dýni překrojíme na polovinu a pečeme ji 15-20 minut při 200 stupních doměkka.Po dopečení ji necháme vychladnout a následně ji oloupeme a vydlabeme z ní semínka.\nVe větším hrnci na rozpáleném oleji (nebo na másle) osmahneme nadrobno nakrájenou cibuli a prolisovaný česnek.Přidáme nakrájenou mrkev a petržel.\nLehce je osmahneme a poté přidáme i upečenou dýni nařezanou na menší kousky.\nZeleninu osolíme a opepříme podle chuti.Zeleninu zalijeme vodou tak, aby voda pokrývala obsah hrnce a polévku vaříme zhruba 15 minut, dokud zelenina nezměkne.\nNásledně polévku rozmixujeme tyčovým mixérem a v případě potřeby ještě dochutíme kořením.\nPolévku můžeme podávat posypanou nasucho opraženými dýňovými či jinými semínky.",
     preparationTime: 60,
     photoSrc: "/assets/hokkaidoSoup.jpg",
   },
