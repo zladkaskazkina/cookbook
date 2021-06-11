@@ -1,9 +1,9 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 
-export default function Ingredient({ ingredientContent }) {
+export default function IngredientInRecipe({ ingredientContent }) {
   const { name, quantity } = ingredientContent;
   const [portionCounter, setPortionCounter] = useState(1);
+
   return (
     <li key={name}>
       <p>{`${name}: ${quantity.amount * portionCounter} ${

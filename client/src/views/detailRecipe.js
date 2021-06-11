@@ -1,4 +1,4 @@
-import Ingredient from "../components/ingredient";
+import IngredientInRecipe from "../components/IngredientInRecipe";
 import React from "react";
 import { initialRecipesList } from "../views/mainPage";
 
@@ -18,7 +18,7 @@ export default function DetailRecipe({ location }) {
       <ul>
         {ingredients.map((ingredient) => (
           <>
-            <Ingredient ingredientContent={ingredient} />
+            <IngredientInRecipe ingredientContent={ingredient} />
           </>
         ))}
       </ul>
