@@ -4,15 +4,17 @@ import React, {
   useContext,
   useReducer,
 } from "react";
+import categoriesRecucer, {
+  initialState as categoriesInitialState,
+} from "./categoriesRecucer";
 import recipesReducer, {
   initialState as recipesInitialState,
 } from "./recipesReducer";
 
-const storeState = {
-  recipes: [],
-};
-
-const StoreContext = createContext(storeState);
+const StoreContext = createContext({
+  recipes: recipesInitialState,
+  categories: categoriesInitialState,
+});
 
 export default StoreContext;
 
@@ -22,7 +24,10 @@ export const StoreProvider = ({ children }) => {
     recipesInitialState
   );
 
-  console.log("recipesState", recipesState);
+  const [categoriesState, categoriesDispatch] = useReducer(
+    categoriesRecucer,
+    categoriesInitialState
+  );
 
   const storeRecipes = useCallback((recipesFromDatabase) => {
     recipesDispatch({ type: "STORE_RECIPES", payload: recipesFromDatabase });
@@ -32,9 +37,19 @@ export const StoreProvider = ({ children }) => {
     recipesDispatch({ type: "ADD_RECIPE", payload: newRecipe });
   });
 
+  const storeCategories = useCallback((categories) => {
+    categoriesDispatch({ type: "ADD_CATEGORIES", payload: categories });
+  });
+
   return (
     <StoreContext.Provider
-      value={{ recipes: recipesState.recipes, addRecipe, storeRecipes }}
+      value={{
+        recipes: recipesState.recipes,
+        categories: categoriesState.categories,
+        addRecipe,
+        storeRecipes,
+        storeCategories,
+      }}
     >
       {children}
     </StoreContext.Provider>
