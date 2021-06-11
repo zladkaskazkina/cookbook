@@ -15,6 +15,8 @@ const Main = () => {
   useRecipes();
   const { recipes } = useStore();
 
+  console.log(recipes);
+
   useEffect(() => {
     const categoriesUniqueObj = new Set(
       recipes.map((recipe) => recipe.category)

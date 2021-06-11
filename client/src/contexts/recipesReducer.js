@@ -14,7 +14,7 @@ export default function reducer(state, action) {
 
       return {
         ...state,
-        recipes: [...["one", "two"], ...payload],
+        recipes: [...state.recipes, payload],
       };
     case "STORE_RECIPES":
       return {

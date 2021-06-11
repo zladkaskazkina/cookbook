@@ -1,50 +1,48 @@
 import React, { useEffect, useState } from "react";
 
 import Ingredient from "./Ingredient";
+import Input from "../components/UI/Input";
 import axios from "axios";
 import { env } from "../config";
 
 const AddIngredient = () => {
   const [ingredients, setIngredients] = useState([]);
-  const [serverMessage, setServerMessage] = useState("");
   const [selectedIngredient, setSelectedIngredient] = useState("");
   const [value, setValue] = useState("");
 
   useEffect(() => {
     axios.get(`${env.APIURL}/get-ingredients`).then((res) => {
       const finalData = res.data;
-      const { msg, documents } = finalData;
+      const { documents } = finalData;
       setIngredients(documents);
-      setServerMessage(msg);
     });
   }, []);
 
   function getIngredientName(name) {
     setSelectedIngredient(name);
   }
-  function handleAddIngredient() {
-    axios.post(`${env.APIURL}/save-ingredient`).then((req, res) => {
-      const finalData = req.data;
 
-      const { msg } = finalData;
-      setServerMessage(msg);
-    });
+  function handleAddIngredient() {
+    axios
+      .post(`${env.APIURL}/save-ingredient`, { name: value })
+      .then((response) => console.log(response));
   }
   return (
     <div>
-      <input
-        type="text"
+      <Input
         value={value}
-        onInput={(e) => {
+        onChange={(e) => {
           setValue(e.target.value);
         }}
-      ></input>
+      />
       <button onClick={handleAddIngredient}>Přidat material</button>
-      <ul>
-        {ingredients.map(({ name, _id }) => (
-          <Ingredient name={name} id={_id} sentName={getIngredientName} />
-        ))}
-      </ul>
+      {ingredients.length && (
+        <ul>
+          {ingredients.map(({ name, _id }) => (
+            <Ingredient name={name} id={_id} sentName={getIngredientName} />
+          ))}
+        </ul>
+      )}
       <h3>{selectedIngredient}</h3>
     </div>
   );

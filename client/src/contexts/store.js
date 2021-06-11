@@ -2,7 +2,6 @@ import React, {
   createContext,
   useCallback,
   useContext,
-  useMemo,
   useReducer,
 } from "react";
 import recipesReducer, {
@@ -23,12 +22,14 @@ export const StoreProvider = ({ children }) => {
     recipesInitialState
   );
 
-  const addRecipe = useCallback(() => {
-    recipesDispatch({ type: "ADD_RECIPE" });
-  });
+  console.log("recipesState", recipesState);
 
   const storeRecipes = useCallback((recipesFromDatabase) => {
     recipesDispatch({ type: "STORE_RECIPES", payload: recipesFromDatabase });
+  });
+
+  const addRecipe = useCallback((newRecipe) => {
+    recipesDispatch({ type: "ADD_RECIPE", payload: newRecipe });
   });
 
   return (
