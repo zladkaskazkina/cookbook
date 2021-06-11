@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 
-import { GlobalContext } from "../context/GlobalContext";
+import { GlobalContext } from "../contexts/GlobalContext";
 import { Link } from "react-router-dom";
 
 export default function Navbar() {

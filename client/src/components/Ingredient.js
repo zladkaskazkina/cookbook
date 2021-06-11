@@ -10,7 +10,6 @@ const Ingredient = ({ name, id, sentName }) => {
       <button
         onClick={() => {
           sentName(name);
-          console.log("name", name);
           changeIngredient(name);
         }}
       >

@@ -1,16 +1,15 @@
 import IngredientInRecipe from "../components/IngredientInRecipe";
 import React from "react";
-import { initialRecipesList } from "../views/mainPage";
+import { useStore } from "../contexts/store";
 
 export default function DetailRecipe({ location }) {
+  const { recipes } = useStore();
   const recipeId = location.pathname.replace("/recipes/", "");
-  const recipe = initialRecipesList.filter((currRecipe) =>
-    currRecipe.id.toString().includes(recipeId)
-  );
-  const { photoSrc, name, summary, method, ingredients } = recipe[0];
+  const recipe = recipes.filter((el) => el._id.toString().includes(recipeId));
+  const { photo, name, summary, method, ingredients } = recipe[0];
   return (
     <>
-      <img src={photoSrc} />
+      <img src={photo} />
       <h1>{name}</h1>
       <h2>{summary}</h2>
       <br />
