@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-import Layout from "../components/layout";
 import Recipe from "../models/recipe";
 import RecipeList from "../components/recipeList";
+import axios from "axios";
 
 export const initialRecipesList = [
   {
@@ -389,9 +389,7 @@ const Main = () => {
     );
     setRecipesList(initialRecipesList.map((recipe) => new Recipe(recipe)));
     setCategories([...categoriesUniqueObj]);
-  }, [initialRecipesList]);
-
-  useEffect(() => {}, [isFiltered]);
+  }, []);
 
   const handleChange = (event) => {
     setSearchRecipe(event.target.value);
@@ -416,7 +414,7 @@ const Main = () => {
   };
 
   return (
-    <Layout>
+    <>
       {categories && (
         <div className="filter-category">
           {categories.map((category) => (
@@ -441,7 +439,7 @@ const Main = () => {
         onChange={handleChange}
       />
       <RecipeList recipes={resultRecipeList} />
-    </Layout>
+    </>
   );
 };
 

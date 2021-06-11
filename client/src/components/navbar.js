@@ -9,7 +9,9 @@ export default function Navbar() {
       </Link>
       <nav>
         <ul>
-          <li>{/* <Link to="/about">About</Link> */}</li>
+          <li>
+            <Link to="/add-recipe">Přidat recept</Link>
+          </li>
         </ul>
       </nav>
     </div>
