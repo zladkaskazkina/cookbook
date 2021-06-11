@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 
-import { GlobalContext } from "../context/GlobalContext";
+import { GlobalContext } from "../contexts/GlobalContext";
 
 const Ingredient = ({ name, id, sentName }) => {
   const { changeIngredient } = useContext(GlobalContext);
