@@ -12,8 +12,7 @@ export default function AddRecipe() {
   const [recipePepreparationTime, setRecipePepreparationTime] = useState(0);
   const [recipeMethod, setRecipeMethod] = useState("");
 
-  const { addRecipe, recipes } = useStore();
-  console.log("context recipes", recipes);
+  const { addRecipe } = useStore();
 
   function handleSubmit(e) {
     e.preventDefault();

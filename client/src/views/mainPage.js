@@ -4,37 +4,34 @@ import RecipeList from "../components/recipeList";
 import { useRecipes } from "../customHooks/useRecipes";
 import { useStore } from "../contexts/store";
 
-//filter
-// recipes.filter((el) => ["starter", "soup"].some(e=>e === el.category))
-
 const Main = () => {
   const [searchRecipe, setSearchRecipe] = useState("");
-  const [categories, setCategories] = useState([]);
   const [filterList, setFilterList] = useState([]);
-  const [isFiltered, setIsFiltered] = useState(false);
   useRecipes();
-  const { recipes } = useStore();
-
-  console.log(recipes);
+  const { recipes, categories } = useStore();
+  const [checkedState, setCheckedState] = useState(null);
 
   useEffect(() => {
-    const categoriesUniqueObj = new Set(
-      recipes.map((recipe) => recipe.category)
-    );
-    setCategories([...categoriesUniqueObj]);
-  }, []);
+    if (categories.length) {
+      setCheckedState(new Array(categories.length).fill(false));
+    }
+  }, [categories]);
 
   const handleChange = (event) => {
     setSearchRecipe(event.target.value);
   };
 
-  const resultRecipeList = searchRecipe
-    ? recipes.filter((recipe) =>
-        recipe.name
-          .toLocaleLowerCase()
-          .includes(searchRecipe.toLocaleLowerCase())
-      )
-    : recipes;
+  function isMathFilter(recipe) {
+    return (
+      recipe.name
+        .toLocaleLowerCase()
+        .includes(searchRecipe.toLocaleLowerCase()) &&
+      filterList.some((el) => el === recipe.category)
+    );
+  }
+
+  const resultRecipeList =
+    searchRecipe || filterList.length ? recipes.filter(isMathFilter) : recipes;
 
   const handleFilterChange = (e) => {
     const checkedCategory = e.target.name;
@@ -49,20 +46,25 @@ const Main = () => {
   return (
     <>
       {categories && (
-        <div className="filter-category">
-          {categories.map((category) => (
-            <label key={category}>
-              <input
-                type="checkbox"
-                onChange={handleFilterChange}
-                name={category}
-              ></input>
-              <span>
-                <p>{category}</p>
-              </span>
-            </label>
-          ))}
-        </div>
+        <>
+          <h3>Vybrat categorie</h3>
+          <ul className="filter-category">
+            {categories.map((category, index) => (
+              <li key={index}>
+                <label>
+                  <input
+                    type="checkbox"
+                    onChange={handleFilterChange}
+                    name={category}
+                  ></input>
+                  <span>
+                    <p>{category}</p>
+                  </span>
+                </label>
+              </li>
+            ))}
+          </ul>
+        </>
       )}
       <input
         className="text-center d-flex justify-center"
