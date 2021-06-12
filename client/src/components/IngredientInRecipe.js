@@ -1,23 +1,15 @@
 import React, { useState } from "react";
 
-export default function IngredientInRecipe({ ingredientContent }) {
+export default function IngredientInRecipe({ ingredientContent, portion }) {
   const { name, quantity } = ingredientContent;
-  const [portionCounter, setPortionCounter] = useState(1);
+
+  //const [portionCounter, setPortionCounter] = useState(1);
 
   return (
     <li key={name}>
-      <p>{`${name}: ${quantity.amount * portionCounter} ${
+      <p>{`${name}: ${quantity.amount * portion} ${
         quantity.measure
-      }`}</p>
-      <p>Počet porce: {portionCounter}</p>
-      <button onClick={() => setPortionCounter(portionCounter + 1)}>+</button>
-      <button
-        onClick={() =>
-          setPortionCounter(portionCounter > 1 ? portionCounter - 1 : 1)
-        }
-      >
-        -
-      </button>
+      }`}</p> 
     </li>
   );
 }

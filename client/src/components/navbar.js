@@ -4,17 +4,12 @@ import { Link } from "react-router-dom";
 
 export default function Navbar() {
   return (
-    <div className="navbar d-flex justify-center">
+    <div className="navbar d-flex space-between">
+      <div style={{width: "7rem"}}></div>
       <Link to="/">
         <img src="/logo.png" alt="logo" />
       </Link>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/add-recipe">Přidat recept</Link>
-          </li>
-        </ul>
-      </nav>
+      <button className="btn btn-secondary"><Link to="/add-recipe" className="link" >Přidat recept</Link></button>          
     </div>
   );
 }
