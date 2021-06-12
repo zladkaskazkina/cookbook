@@ -1,22 +1,47 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 
 import Button from "react-bootstrap/Button";
-import Dropdown from "react-bootstrap/Dropdown";
-import IngredientModel from "../models/ingredient";
+import Ingredient from "./Ingredient";
 import IngredientName from "./IngredientName";
 import Input from "./UI/Input";
 import axios from "axios";
 import { env } from "../config";
 
+const initialState = [];
+
+function reducer(state, action) {
+  const { amount, index, measure } = action.payload;
+  switch (action.type) {
+    case "ADD_INGREDIENT":
+      return [
+        ...state,
+        { name: action.payload, quantity: { amount: 0, measure: "ml" } },
+      ];
+    case "CHANGE_AMOUNT":
+      return [
+        ...state.filter((el, i) => i !== index),
+        {
+          name: state[index].name,
+          quantity: { amount: amount, measure: state[index].quantity.measure },
+        },
+      ];
+    case "CHANGE_MEASURE":
+      return [
+        ...state.filter((el, i) => i !== index),
+        {
+          name: state[index].name,
+          quantity: { amount: state[index].quantity.amount, measure: measure },
+        },
+      ];
+    default:
+      return state;
+  }
+}
+
 const AddIngredients = ({ sentIngredients }) => {
+  const [selectedIngredients, dispatch] = useReducer(reducer, initialState);
   const [ingredients, setIngredients] = useState([]);
-  const [selectedIngredientsNames, setSelectedIngredientsNames] = useState([]);
   const [value, setValue] = useState("");
-  const [measure, setMeasure] = useState("ml");
-  const [amount, setAmount] = useState("0");
-
-  const measures = ["ml", "g", "ks", "lžíce", "stroužky", "hrst", "svázek"];
-
   useEffect(() => {
     axios.get(`${env.APIURL}/get-ingredients`).then((res) => {
       const finalData = res.data;
@@ -25,10 +50,20 @@ const AddIngredients = ({ sentIngredients }) => {
     });
   }, []);
 
-  console.log(selectedIngredientsNames);
+  const handleChangeAmount = (amount, currIndex) =>
+    dispatch({
+      type: "CHANGE_AMOUNT",
+      payload: { amount: amount, index: currIndex },
+    });
 
-  function getIngredientName(name) {
-    setSelectedIngredientsNames([...selectedIngredientsNames, name]);
+  const handleChangeMeasure = (measure, currIndex) =>
+    dispatch({
+      type: "CHANGE_MEASURE",
+      payload: { measure: measure, index: currIndex },
+    });
+
+  function getSelectedIngredient(name, id) {
+    dispatch({ type: "ADD_INGREDIENT", payload: name });
   }
 
   function handleAddIngredients() {
@@ -48,35 +83,25 @@ const AddIngredients = ({ sentIngredients }) => {
       {ingredients.length && (
         <ul>
           {ingredients.map(({ name, _id }) => (
-            <IngredientName name={name} id={_id} sentName={getIngredientName} />
+            <IngredientName
+              name={name}
+              id={_id}
+              sentSelectedIngredient={getSelectedIngredient}
+            />
           ))}
         </ul>
       )}
-
       <ul>
-        {selectedIngredientsNames.map((ingredient) => (
-          <li>
-            {ingredient}
-            <input
-              value={amount}
-              type="number"
-              onChange={(e) => {
-                setAmount(e.target.value);
-              }}
+        {selectedIngredients.map((ingredient, index) => (
+          <li key={ingredient._id} className="d-flex mb-2">
+            <Ingredient
+              index={index}
+              name={ingredient.name}
+              amount={ingredient.quantity.amount}
+              measure={ingredient.quantity.measure}
+              sentChangedAmont={handleChangeAmount}
+              sentChangeMeasure={handleChangeMeasure}
             />
-            <Dropdown>
-              <Dropdown.Toggle variant="success" id="dropdown-basic">
-                {measure}
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                {measures.map((el) => (
-                  <Dropdown.Item as="button" onClick={() => setMeasure(el)}>
-                    {el}
-                  </Dropdown.Item>
-                ))}
-              </Dropdown.Menu>
-            </Dropdown>{" "}
-            <Button>-</Button>
           </li>
         ))}
       </ul>

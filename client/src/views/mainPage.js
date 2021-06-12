@@ -9,13 +9,6 @@ const Main = () => {
   const [filterList, setFilterList] = useState([]);
   useRecipes();
   const { recipes, categories } = useStore();
-  const [checkedState, setCheckedState] = useState(null);
-
-  useEffect(() => {
-    if (categories.length) {
-      setCheckedState(new Array(categories.length).fill(false));
-    }
-  }, [categories]);
 
   const handleChange = (event) => {
     setSearchRecipe(event.target.value);

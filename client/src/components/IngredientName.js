@@ -1,12 +1,13 @@
 import React from "react";
 
-const IngredientName = ({ name, id, sentName }) => {
+const IngredientName = ({ name, id, sentSelectedIngredient }) => {
   return (
     <li key={id}>
       {name}
       <button
-        onClick={() => {
-          sentName(name);
+        onClick={(e) => {
+          sentSelectedIngredient(name, id);
+          e.target.parentNode.style.display = "none";
         }}
       >
         +

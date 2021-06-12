@@ -17,7 +17,6 @@ export default function AddRecipe() {
 
   const { addRecipe, categories } = useStore();
 
-  console.log(ingredients);
   function handleSubmit(e) {
     e.preventDefault();
     addRecipe(
