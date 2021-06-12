@@ -10,14 +10,16 @@ const Ingredient = ({
   index,
   sentChangeMeasure,
   amount,
+  sentToDelete,
   measure,
 }) => {
   return (
     <>
-      {name}
+      <span className="mr-2">{name}</span>
       <input
         value={amount}
         type="number"
+        className="mr-2"
         onChange={(e) => {
           sentChangedAmont(e.target.value, index);
         }}
@@ -37,7 +39,9 @@ const Ingredient = ({
           ))}
         </Dropdown.Menu>
       </Dropdown>
-      <Button>-</Button>
+      <Button onClick={() => sentToDelete(index)} className="btn-danger ml-2">
+        -
+      </Button>
     </>
   );
 };

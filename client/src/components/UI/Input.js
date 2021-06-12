@@ -16,6 +16,7 @@ export default function Input({ label, name, onChange, value, required }) {
         type="text"
         id={name}
         name={name}
+        required={required}
         onChange={onChange}
         value={value}
       />

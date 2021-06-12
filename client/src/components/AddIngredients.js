@@ -19,20 +19,38 @@ function reducer(state, action) {
       ];
     case "CHANGE_AMOUNT":
       return [
-        ...state.filter((el, i) => i !== index),
-        {
-          name: state[index].name,
-          quantity: { amount: amount, measure: state[index].quantity.measure },
-        },
+        ...state.map(function (el, i) {
+          if (i === index) {
+            return {
+              name: state[index].name,
+              quantity: {
+                amount: amount,
+                measure: state[index].quantity.measure,
+              },
+            };
+          } else {
+            return el;
+          }
+        }),
       ];
     case "CHANGE_MEASURE":
       return [
-        ...state.filter((el, i) => i !== index),
-        {
-          name: state[index].name,
-          quantity: { amount: state[index].quantity.amount, measure: measure },
-        },
+        ...state.map(function (el, i) {
+          if (i === index) {
+            return {
+              name: state[index].name,
+              quantity: {
+                amount: state[index].quantity.amount,
+                measure: measure,
+              },
+            };
+          } else {
+            return el;
+          }
+        }),
       ];
+    case "DELETE_INGREDIENT":
+      return [...state.filter((el, i) => i !== action.payload)];
     default:
       return state;
   }
@@ -50,6 +68,8 @@ const AddIngredients = ({ sentIngredients }) => {
     });
   }, []);
 
+  console.log(selectedIngredients);
+
   const handleChangeAmount = (amount, currIndex) =>
     dispatch({
       type: "CHANGE_AMOUNT",
@@ -62,9 +82,15 @@ const AddIngredients = ({ sentIngredients }) => {
       payload: { measure: measure, index: currIndex },
     });
 
-  function getSelectedIngredient(name, id) {
+  function getSelectedIngredient(name) {
     dispatch({ type: "ADD_INGREDIENT", payload: name });
   }
+
+  const handleRemoveIngredient = (index) =>
+    dispatch({
+      type: "DELETE_INGREDIENT",
+      payload: index,
+    });
 
   function handleAddIngredients() {
     axios
@@ -72,7 +98,7 @@ const AddIngredients = ({ sentIngredients }) => {
       .then((response) => console.log(response));
   }
   return (
-    <div>
+    <div class="text-center mt-5">
       <Input
         value={value}
         onChange={(e) => {
@@ -81,7 +107,7 @@ const AddIngredients = ({ sentIngredients }) => {
       />
       <Button onClick={handleAddIngredients}>Přidat material</Button>
       {ingredients.length && (
-        <ul>
+        <ul className="d-flex flex-wrap m-auto container justify-center">
           {ingredients.map(({ name, _id }) => (
             <IngredientName
               name={name}
@@ -91,9 +117,12 @@ const AddIngredients = ({ sentIngredients }) => {
           ))}
         </ul>
       )}
-      <ul>
+      <ul className="align-center d-flex flex-column mt-4">
         {selectedIngredients.map((ingredient, index) => (
-          <li key={ingredient._id} className="d-flex mb-2">
+          <li
+            key={ingredient._id}
+            className="align-center d-f d-flex font-weight-bold mb-2"
+          >
             <Ingredient
               index={index}
               name={ingredient.name}
@@ -101,6 +130,7 @@ const AddIngredients = ({ sentIngredients }) => {
               measure={ingredient.quantity.measure}
               sentChangedAmont={handleChangeAmount}
               sentChangeMeasure={handleChangeMeasure}
+              sentToDelete={handleRemoveIngredient}
             />
           </li>
         ))}

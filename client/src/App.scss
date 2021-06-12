@@ -8,6 +8,8 @@ $border-radius: 10px;
 $box-shadow: 0 0.5rem 1rem lightgray;
 $navbar-height: 120px;
 
+@import "custom";
+
 * {
   margin: 0;
   padding: 0;
@@ -17,6 +19,7 @@ $navbar-height: 120px;
 
 .main {
   padding-top: $navbar-height * 1.5;
+  min-height: 100vh;
 }
 
 ul {
