@@ -22,16 +22,17 @@ const Main = () => {
   };
 
   function isMathFilter(recipe) {
+    console.log(recipe.name)
     return (
       recipe.name
         .toLocaleLowerCase()
         .includes(searchRecipe.toLocaleLowerCase()) &&
-      filterList.some((el) => el === recipe.category)
+      (filterList.length? filterList.some((el) => el === recipe.category) : true)
     );
   }
 
   const resultRecipeList =
-    searchRecipe || filterList.length ? recipes.filter(isMathFilter) : recipes;
+    (searchRecipe || filterList.length) ? recipes.filter(isMathFilter) : recipes;
 
   const handleFilterChange = (e) => {
     const checkedCategory = e.target.name;
@@ -47,10 +48,10 @@ const Main = () => {
     <>
       {categories && (
         <>
-          <h3>Vybrat categorie</h3>
+          <h3 className="text-center">Vybrat kategorie:</h3>
           <ul className="filter-category">
             {categories.map((category, index) => (
-              <li key={index}>
+              <li key={index} className="filter-item">
                 <label>
                   <input
                     type="checkbox"
@@ -66,13 +67,15 @@ const Main = () => {
           </ul>
         </>
       )}
+      <div className="d-flex align-center">
       <input
-        className="text-center d-flex justify-center"
+        className="text-center el-center"
         type="text"
         placeholder="vyhledávání"
         value={searchRecipe}
         onChange={handleChange}
       />
+      </div>
       {recipes && <RecipeList recipes={resultRecipeList} />}
     </>
   );

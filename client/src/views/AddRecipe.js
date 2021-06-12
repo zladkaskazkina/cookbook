@@ -40,8 +40,9 @@ export default function AddRecipe() {
 
   return (
     <div>
-      <h1>Přidat recept</h1>
+      <h1 className="text-center">Přidat recept</h1>
       <form onSubmit={handleSubmit}>
+        <div >
         <Input
           label="přidat název"
           value={recipeName}
@@ -56,16 +57,20 @@ export default function AddRecipe() {
           }}
           label="doba připravy"
         />
-        <label>
-          pridat popis
-          <textarea
-            value={recipeMethod}
-            rows="5"
-            onChange={(e) => {
-              setRecipeMethod(e.target.value);
-            }}
-          ></textarea>
-        </label>
+        </div>
+        
+        <div>
+          <label>
+            pridat popis
+            <textarea
+              value={recipeMethod}
+              rows="5"
+              onChange={(e) => {
+                setRecipeMethod(e.target.value);
+              }}
+            ></textarea>
+          </label>
+        </div>
         <Dropdown>
           <Dropdown.Toggle variant="success" id="dropdown-basic">
             {recipeCategory}

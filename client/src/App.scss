@@ -63,6 +63,29 @@ ul {
     }
   }
 }
+.link {
+  color: white;
+  &:hover {
+    color: white;
+  }
+}
+.filter-category {
+  display: flex;
+  justify-content: center;
+}
+.filter-item {
+  margin: 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+.el-center {
+  margin: 1rem auto;
+}
+.space-between {
+  justify-content: space-between;
+}
+
 .navbar {
   height: $navbar-height;
   padding: 0.5rem;
@@ -72,7 +95,6 @@ ul {
   right: 0;
   z-index: 3;
   background: white;
-
   box-shadow: $box-shadow;
 }
 
