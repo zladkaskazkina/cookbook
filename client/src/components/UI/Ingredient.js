@@ -1,16 +1,12 @@
-import React, { useContext } from "react";
-
-import { GlobalContext } from "../contexts/GlobalContext";
+import React from "react";
 
 const Ingredient = ({ name, id, sentName }) => {
-  const { changeIngredient } = useContext(GlobalContext);
   return (
     <li key={id}>
       {name}
       <button
         onClick={() => {
           sentName(name);
-          changeIngredient(name);
         }}
       >
         +

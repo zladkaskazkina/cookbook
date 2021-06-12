@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
-import AddIngredient from "../components/AddIngredient";
+import AddIngredients from "../components/AddIngredients";
+import Dropdown from "react-bootstrap/Dropdown";
 import Input from "../components/UI/Input";
 import Recipe from "../models/recipe";
 import axios from "axios";
@@ -10,10 +11,13 @@ import { useStore } from "../contexts/store";
 export default function AddRecipe() {
   const [recipeName, setRecipeName] = useState("");
   const [recipePepreparationTime, setRecipePepreparationTime] = useState(0);
+  const [recipeCategory, setRecipeCategory] = useState("Vybrat kategorie");
   const [recipeMethod, setRecipeMethod] = useState("");
+  const [ingredients, setIngredients] = useState([]);
 
-  const { addRecipe } = useStore();
+  const { addRecipe, categories } = useStore();
 
+  console.log(ingredients);
   function handleSubmit(e) {
     e.preventDefault();
     addRecipe(
@@ -31,6 +35,8 @@ export default function AddRecipe() {
       })
       .then((response) => console.log(response));
   }
+
+  function getIngredients(name, amount, measure) {}
 
   return (
     <div>
@@ -60,16 +66,24 @@ export default function AddRecipe() {
             }}
           ></textarea>
         </label>
-        {/** 1. add images to localStore
-         *   2. switch betweeb categories,
-         *   3. set when required
-         *   4. search ingredients
-         */}
-        <input type="submit" value="Submit" />
+        <Dropdown>
+          <Dropdown.Toggle variant="success" id="dropdown-basic">
+            {recipeCategory}
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            {categories.map((caterory) => (
+              <Dropdown.Item
+                as="button"
+                onClick={() => setRecipeCategory(caterory)}
+              >
+                {caterory}
+              </Dropdown.Item>
+            ))}
+          </Dropdown.Menu>
+        </Dropdown>
+        <AddIngredients sentIngredients={getIngredients} />
+        <input type="submit" value="Uložit recept" />
       </form>
-      <br />
-      <br />
-      <AddIngredient />
     </div>
   );
 }
