@@ -14,7 +14,7 @@ export default function Input({
         <>
           <label className="mb-1 mt-3" htmlFor={name}>{`${label}:`}</label>
 
-          {required && <span class="asterisk">*</span>}
+          {required && <span className="asterisk">*</span>}
         </>
       )}
 

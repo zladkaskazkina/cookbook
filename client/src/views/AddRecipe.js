@@ -97,7 +97,7 @@ export default function AddRecipe() {
           {recipePhoto && <img src={recipePhoto} />}
           <div className="d-flex flex-column position-relative">
             <label className="mt-3"> pridat popis</label>
-            <span class="asterisk">*</span>
+            <span className="asterisk">*</span>
             <textarea
               value={recipeMethod}
               className="mb-4"
@@ -120,6 +120,7 @@ export default function AddRecipe() {
                       setRecipeCategory(caterory);
                       setIsEmptyCategory(false);
                     }}
+                    key={caterory}
                   >
                     {caterory}
                   </Dropdown.Item>
@@ -142,7 +143,7 @@ export default function AddRecipe() {
             handleClose={handleClose}
           />
           {isEmptyIngredients && (
-            <span class="error-text">Přidejte surovinu</span>
+            <span className="error-text">Přidejte surovinu</span>
           )}
         </div>
         <input

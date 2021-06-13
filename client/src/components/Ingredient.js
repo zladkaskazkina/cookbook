@@ -31,6 +31,7 @@ const Ingredient = ({
         <Dropdown.Menu>
           {measures.map((el) => (
             <Dropdown.Item
+              key="el"
               as="button"
               onClick={() => sentChangeMeasure(el, index)}
             >

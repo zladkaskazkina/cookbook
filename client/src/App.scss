@@ -88,6 +88,11 @@ ul {
     }
   }
 }
+.filter-category {
+  .filter-item:last-child {
+    display: none;
+  }
+}
 .link {
   color: white;
   &:hover {
