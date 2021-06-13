@@ -106,7 +106,6 @@ const AddIngredients = ({ sentIngredients, show, handleClose }) => {
   }
 
   function isMutchFulter(ingredient) {
-    console.log(ingredient);
     if (!value || !ingredient.name) return true;
     return ingredient.name
       .toLocaleLowerCase()

@@ -17,7 +17,7 @@ const Ingredient = ({
     <>
       <span className="mr-2">{name}</span>
       <input
-        value={amount}
+        value={Math.max(0, amount)}
         type="number"
         className="mr-2"
         onChange={(e) => {

@@ -31,8 +31,8 @@ export default function DetailRecipe({ location }) {
             <p> {currentRecept.method}</p>
           </div>
         </div>
-        <p className="text-center">Počet porce: {portionCounter}</p>
-        <div className="filter-category">
+        <h4 className="text-center mt-4">Počet porce: {portionCounter}</h4>
+        <div className="filter-category text-center">
           <button
             className="btn btn-secondary m-1"
             onClick={() =>
@@ -48,7 +48,7 @@ export default function DetailRecipe({ location }) {
             +
           </button>
         </div>
-        <ul>
+        <ul className="text-center mt-3">
           {currentRecept.ingredients.map((ingredient) => (
             <>
               <IngredientInRecipe

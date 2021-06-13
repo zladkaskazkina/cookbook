@@ -82,7 +82,7 @@ export default function AddRecipe() {
             value={recipePepreparationTime}
             type="number"
             onChange={(e) => {
-              setRecipePepreparationTime(e.target.value);
+              setRecipePepreparationTime(Math.max(0, e.target.value));
             }}
             label="doba přípravy v minutách"
           />
