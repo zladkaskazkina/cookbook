@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import AddIngredients from "../components/AddIngredients";
+import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 import Input from "../components/UI/Input";
 import Recipe from "../models/recipe";
@@ -16,30 +17,40 @@ export default function AddRecipe() {
   const [recipeCategory, setRecipeCategory] = useState("Vybrat kategorie");
   const [recipeMethod, setRecipeMethod] = useState("");
   const [ingredients, setIngredients] = useState([]);
+  const [show, setShow] = useState(false);
+  const [isEmptyIngredients, setIsEmptyIngredients] = useState(false);
 
   useRecipes();
 
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   const { addRecipe, categories } = useStore();
+
+  function getSelectedIngredients(ingredients) {
+    setIngredients(ingredients);
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
-    addRecipe(
-      new Recipe({
-        name: recipeName,
-        method: recipeMethod,
-        preparationTime: recipePepreparationTime,
-      })
-    );
-    axios
-      .post(`${env.APIURL}/save-recipe`, {
-        name: recipeName,
-        preparationTime: recipePepreparationTime,
-        method: recipeMethod,
-      })
-      .then((response) => console.log(response));
+    if (!isEmptyIngredients) {
+      addRecipe(
+        new Recipe({
+          name: recipeName,
+          method: recipeMethod,
+          preparationTime: recipePepreparationTime,
+          ingredients: ingredients,
+        })
+      );
+      axios
+        .post(`${env.APIURL}/save-recipe`, {
+          name: recipeName,
+          preparationTime: recipePepreparationTime,
+          method: recipeMethod,
+        })
+        .then((response) => console.log(response));
+    }
   }
-
-  function getIngredients(name, amount, measure) {}
 
   return (
     <div className="text-center">
@@ -56,11 +67,13 @@ export default function AddRecipe() {
           />
           <Input
             value={recipePepreparationTime}
+            type="number"
             onChange={(e) => {
               setRecipePepreparationTime(e.target.value);
             }}
-            label="doba připravy"
+            label="doba přípravy v minutách"
           />
+          {/* http://placekitten.com/200/100 */}
           <Input
             label="přidat odkaz na obrázek"
             value={recipePhoto}
@@ -69,33 +82,43 @@ export default function AddRecipe() {
             }}
           />
           {recipePhoto && <img src={recipePhoto} />}
-          <label> pridat popis</label>
-          <textarea
-            value={recipeMethod}
-            className="mb-4"
-            required
-            rows="5"
-            onChange={(e) => {
-              setRecipeMethod(e.target.value);
-            }}
-          ></textarea>
+          <div className="d-flex flex-column position-relative">
+            <label className="mt-3"> pridat popis</label>
+            <span class="asterisk">*</span>
+            <textarea
+              value={recipeMethod}
+              className="mb-4"
+              required
+              rows="5"
+              onChange={(e) => {
+                setRecipeMethod(e.target.value);
+              }}
+            ></textarea>
+          </div>
           <Dropdown>
             <Dropdown.Toggle variant="success" id="dropdown-basic">
               {recipeCategory}
             </Dropdown.Toggle>
             <Dropdown.Menu>
               {categories.map((caterory) => (
-                <Dropdown.Item
-                  as="button"
-                  onClick={() => setRecipeCategory(caterory)}
-                >
+                <Dropdown.Item onClick={() => setRecipeCategory(caterory)}>
                   {caterory}
                 </Dropdown.Item>
               ))}
             </Dropdown.Menu>
           </Dropdown>
         </div>
-        <AddIngredients sentIngredients={getIngredients} />
+        <div className="my-5">
+          <Button variant="primary" onClick={handleShow}>
+            Přidat materialy
+          </Button>
+
+          <AddIngredients
+            sentIngredients={getSelectedIngredients}
+            show={show}
+            handleClose={handleClose}
+          />
+        </div>
         <input
           className="btn btn-dark btn-lg"
           type="submit"

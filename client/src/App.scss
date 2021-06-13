@@ -17,6 +17,12 @@ $navbar-height: 120px;
   font-family: "Public Sans", sans-serif;
 }
 
+.asterisk {
+  position: absolute;
+  color: red;
+  top: 1.4rem;
+}
+
 .main {
   padding-top: $navbar-height * 1.5;
   min-height: 100vh;

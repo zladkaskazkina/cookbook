@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import Ingredient from "./Ingredient";
 import IngredientName from "./IngredientName";
 import Input from "./UI/Input";
+import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 import { env } from "../config";
 
@@ -56,7 +57,7 @@ function reducer(state, action) {
   }
 }
 
-const AddIngredients = ({ sentIngredients }) => {
+const AddIngredients = ({ sentIngredients, show, handleClose }) => {
   const [selectedIngredients, dispatch] = useReducer(reducer, initialState);
   const [ingredients, setIngredients] = useState([]);
   const [value, setValue] = useState("");
@@ -67,8 +68,6 @@ const AddIngredients = ({ sentIngredients }) => {
       setIngredients(documents);
     });
   }, []);
-
-  console.log(selectedIngredients);
 
   const handleChangeAmount = (amount, currIndex) =>
     dispatch({
@@ -97,45 +96,68 @@ const AddIngredients = ({ sentIngredients }) => {
       .post(`${env.APIURL}/save-ingredient`, { name: value })
       .then((response) => console.log(response));
   }
+
+  function handleSaveChanges() {
+    console.log("inside", selectedIngredients);
+    sentIngredients(selectedIngredients);
+    handleClose();
+  }
   return (
-    <div class="text-center mt-5">
-      <Input
-        value={value}
-        onChange={(e) => {
-          setValue(e.target.value);
-        }}
-      />
-      <Button onClick={handleAddIngredients}>Přidat material</Button>
-      {ingredients.length && (
-        <ul className="d-flex flex-wrap m-auto container justify-center">
-          {ingredients.map(({ name, _id }) => (
-            <IngredientName
-              name={name}
-              id={_id}
-              sentSelectedIngredient={getSelectedIngredient}
+    <Modal show={show} onHide={handleClose}>
+      <Modal.Header closeButton></Modal.Header>
+      <Modal.Body>
+        <div className="text-center">
+          <div className="d-flex justify-center mb-4">
+            <Input
+              value={value}
+              onChange={(e) => {
+                setValue(e.target.value);
+              }}
             />
-          ))}
-        </ul>
-      )}
-      <ul className="align-center d-flex flex-column mt-4">
-        {selectedIngredients.map((ingredient, index) => (
-          <li
-            key={ingredient._id}
-            className="align-center d-f d-flex font-weight-bold mb-2"
-          >
-            <Ingredient
-              index={index}
-              name={ingredient.name}
-              amount={ingredient.quantity.amount}
-              measure={ingredient.quantity.measure}
-              sentChangedAmont={handleChangeAmount}
-              sentChangeMeasure={handleChangeMeasure}
-              sentToDelete={handleRemoveIngredient}
-            />
-          </li>
-        ))}
-      </ul>
-    </div>
+            <Button onClick={handleAddIngredients} className="ml-2">
+              Přidat material
+            </Button>
+          </div>
+          {ingredients.length && (
+            <ul className="d-flex flex-wrap m-auto container justify-center">
+              {ingredients.map(({ name, _id }) => (
+                <IngredientName
+                  name={name}
+                  id={_id}
+                  sentSelectedIngredient={getSelectedIngredient}
+                />
+              ))}
+            </ul>
+          )}
+          <ul className="align-center d-flex flex-column mt-4">
+            {selectedIngredients.map((ingredient, index) => (
+              <li
+                key={ingredient._id}
+                className="align-center d-f d-flex font-weight-bold mb-2"
+              >
+                <Ingredient
+                  index={index}
+                  name={ingredient.name}
+                  amount={ingredient.quantity.amount}
+                  measure={ingredient.quantity.measure}
+                  sentChangedAmont={handleChangeAmount}
+                  sentChangeMeasure={handleChangeMeasure}
+                  sentToDelete={handleRemoveIngredient}
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={handleClose}>
+          Zavřit
+        </Button>
+        <Button variant="primary" onClick={() => handleSaveChanges()}>
+          Uložit
+        </Button>
+      </Modal.Footer>
+    </Modal>
   );
 };
 
