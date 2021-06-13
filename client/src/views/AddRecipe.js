@@ -19,6 +19,7 @@ export default function AddRecipe() {
   const [ingredients, setIngredients] = useState([]);
   const [show, setShow] = useState(false);
   const [isEmptyIngredients, setIsEmptyIngredients] = useState(false);
+  const [isEmptyCategory, setIsEmptyCategory] = useState(false);
 
   useRecipes();
 
@@ -29,27 +30,39 @@ export default function AddRecipe() {
 
   function getSelectedIngredients(ingredients) {
     setIngredients(ingredients);
+    if (ingredients.length) {
+      setIsEmptyIngredients(false);
+    }
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (!isEmptyIngredients) {
-      addRecipe(
-        new Recipe({
-          name: recipeName,
-          method: recipeMethod,
-          preparationTime: recipePepreparationTime,
-          ingredients: ingredients,
-        })
-      );
-      axios
-        .post(`${env.APIURL}/save-recipe`, {
-          name: recipeName,
-          preparationTime: recipePepreparationTime,
-          method: recipeMethod,
-        })
-        .then((response) => console.log(response));
+    if (recipeCategory === "Vybrat kategorie") {
+      setIsEmptyCategory(true);
+      return;
     }
+    if (!ingredients.length) {
+      setIsEmptyIngredients(true);
+      return;
+    }
+    addRecipe(
+      new Recipe({
+        name: recipeName,
+        method: recipeMethod,
+        preparationTime: recipePepreparationTime,
+        ingredients: ingredients,
+      })
+    );
+    axios
+      .post(`${env.APIURL}/save-recipe`, {
+        name: recipeName,
+        preparationTime: recipePepreparationTime,
+        photo: recipePhoto,
+        method: recipeMethod,
+        category: recipeCategory,
+        ingredients: ingredients,
+      })
+      .then((response) => console.log(response));
   }
 
   return (
@@ -95,22 +108,32 @@ export default function AddRecipe() {
               }}
             ></textarea>
           </div>
-          <Dropdown>
-            <Dropdown.Toggle variant="success" id="dropdown-basic">
-              {recipeCategory}
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              {categories.map((caterory) => (
-                <Dropdown.Item onClick={() => setRecipeCategory(caterory)}>
-                  {caterory}
-                </Dropdown.Item>
-              ))}
-            </Dropdown.Menu>
-          </Dropdown>
+          <div>
+            <Dropdown>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">
+                {recipeCategory}
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                {categories.map((caterory) => (
+                  <Dropdown.Item
+                    onClick={() => {
+                      setRecipeCategory(caterory);
+                      setIsEmptyCategory(false);
+                    }}
+                  >
+                    {caterory}
+                  </Dropdown.Item>
+                ))}
+              </Dropdown.Menu>
+            </Dropdown>
+            {isEmptyCategory && (
+              <span class="error-text">Vyberte kategorie</span>
+            )}
+          </div>
         </div>
-        <div className="my-5">
+        <div className="align-center d-flex flex-column my-5 text-center">
           <Button variant="primary" onClick={handleShow}>
-            Přidat materialy
+            Přidat suroviny
           </Button>
 
           <AddIngredients
@@ -118,6 +141,9 @@ export default function AddRecipe() {
             show={show}
             handleClose={handleClose}
           />
+          {isEmptyIngredients && (
+            <span class="error-text">Přidejte surovinu</span>
+          )}
         </div>
         <input
           className="btn btn-dark btn-lg"
