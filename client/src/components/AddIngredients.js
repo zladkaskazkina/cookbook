@@ -61,13 +61,15 @@ const AddIngredients = ({ sentIngredients, show, handleClose }) => {
   const [selectedIngredients, dispatch] = useReducer(reducer, initialState);
   const [ingredients, setIngredients] = useState([]);
   const [value, setValue] = useState("");
+  const [isUseEffectUpdate, setIsUseEffectUpdate] = useState(false);
   useEffect(() => {
     axios.get(`${env.APIURL}/get-ingredients`).then((res) => {
       const finalData = res.data;
       const { documents } = finalData;
       setIngredients(documents);
     });
-  }, []);
+    setIsUseEffectUpdate(false);
+  }, [isUseEffectUpdate]);
 
   const handleChangeAmount = (amount, currIndex) =>
     dispatch({
@@ -95,13 +97,22 @@ const AddIngredients = ({ sentIngredients, show, handleClose }) => {
     axios
       .post(`${env.APIURL}/save-ingredient`, { name: value })
       .then((response) => console.log(response));
+    setIsUseEffectUpdate(true);
   }
 
   function handleSaveChanges() {
-    console.log("inside", selectedIngredients);
     sentIngredients(selectedIngredients);
     handleClose();
   }
+
+  function isMutchFulter(ingredient) {
+    console.log(ingredient);
+    if (!value || !ingredient.name) return true;
+    return ingredient.name
+      .toLocaleLowerCase()
+      .includes(value.toLocaleLowerCase());
+  }
+
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton></Modal.Header>
@@ -115,12 +126,12 @@ const AddIngredients = ({ sentIngredients, show, handleClose }) => {
               }}
             />
             <Button onClick={handleAddIngredients} className="ml-2">
-              Přidat material
+              Přidat surovinu
             </Button>
           </div>
           {ingredients.length && (
             <ul className="d-flex flex-wrap m-auto container justify-center">
-              {ingredients.map(({ name, _id }) => (
+              {ingredients.filter(isMutchFulter).map(({ name, _id }) => (
                 <IngredientName
                   name={name}
                   id={_id}
