@@ -2,14 +2,16 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const recipeSchema =  new Schema({
-  author:{
-    type:String,
-  },
+  // author:{
+  //   type: String, 
+  //   default: "admin"
+  // },
   category:{
     type:String,
   },
   name:{
     type:String,
+    required: true
   },
   portions:{
     type:Number
