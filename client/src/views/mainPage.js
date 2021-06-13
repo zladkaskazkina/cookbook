@@ -45,7 +45,7 @@ const Main = () => {
       {categories && (
         <>
           <h3 className="text-center">Vybrat kategorie:</h3>
-          <ul className="filter-category">
+          <ul className="filter-category mb-0">
             {categories.map((category, index) => (
               <li key={index} className="filter-item">
                 <label>
