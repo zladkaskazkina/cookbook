@@ -11,10 +11,7 @@ const recipeSchema =  new Schema({
   },
   name:{
     type:String,
-    required: true
-  },
-  portions:{
-    type:Number
+    //required: true
   },
   ingredients:{
     type:Array,
