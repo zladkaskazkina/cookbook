@@ -1,24 +1,32 @@
 import React from "react";
 
-export default function Input({ label, name, onChange, value, required }) {
+export default function Input({
+  label,
+  name,
+  onChange,
+  value,
+  required,
+  type = "text",
+}) {
   return (
-    <>
+    <div className="d-flex flex-column position-relative">
       {label && (
         <>
-          <label htmlFor={name}>{`${label}:`}</label>
+          <label className="mb-1 mt-3" htmlFor={name}>{`${label}:`}</label>
 
-          {required && <span>*</span>}
+          {required && <span class="asterisk">*</span>}
         </>
       )}
 
       <input
         aria-label={name}
-        type="text"
+        type={type}
         id={name}
         name={name}
+        required={required}
         onChange={onChange}
         value={value}
       />
-    </>
+    </div>
   );
 }
